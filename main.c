@@ -1,4 +1,4 @@
-
+﻿
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -27,7 +27,7 @@ typedef struct
     int count;
 }STATISTICS_NODE;
 
-STATISTICS_NODE Word_Line_Node[2][34] = {0};
+STATISTICS_NODE Word_Line_Node[2][34] = {0};// 存放每个在wordline，筛选出的不同类型所有page的信息。
 
 unsigned short Page_max_value[PAGE_COUNT] = {0};
 unsigned int Page_sum_value[PAGE_COUNT] = {0};
@@ -35,7 +35,7 @@ float Page_average_value[PAGE_COUNT] = {0};
 
 unsigned int UniqueId = 0,BlockNum = 0,Endurance = 0;
 
-void do_init()
+void do_init()// 初始化 节点里的信息
 {
     int i = 0,j = 0;
     for(i = 0; i < 2; i++)
@@ -63,7 +63,7 @@ void do_init()
 }
 
 unsigned int GetPageType(unsigned int p)
-{
+{//获取page的类型
     if(GET_PAGE_TYPE(p) == UPPER_PAGE)
         return UPPER_PAGE;
     if(GET_UPPER_PAGE(p) == NO_UPPER_PAGE)
@@ -73,7 +73,7 @@ unsigned int GetPageType(unsigned int p)
 }
 
 void GetWordLineNumber(unsigned int p,unsigned int *number,unsigned int *type)
-{
+{//根据page，获取page所属的wordline，以及page的类型，并存储。
     *type = GetPageType(p);
     if(*type == UPPER_PAGE)
         p = GET_LOWER_PAGE(p);
@@ -87,7 +87,7 @@ void GetWordLineNumber(unsigned int p,unsigned int *number,unsigned int *type)
 }
 
 void DistributionRowColumn(unsigned int number,unsigned int type,unsigned int *row,unsigned int *column)
-{
+{// 对应到相应的二维数组上，即数据的一个元素代表一个wordline里，某种类型的所有page的总的信息，如：sum，max，count。
     if(type == UPPER_PAGE)
     {
         *row = 1;
@@ -106,7 +106,7 @@ void DistributionRowColumn(unsigned int number,unsigned int type,unsigned int *r
 }
 
 void Select_Data(unsigned int row,unsigned int column,short value)
-{
+{// 获取每个节点内部的信息
     Word_Line_Node[row][column].count ++;
     Word_Line_Node[row][column].sum += value;
     if(Word_Line_Node[row][column].max < value)
@@ -114,7 +114,7 @@ void Select_Data(unsigned int row,unsigned int column,short value)
 }
 
 unsigned int c2h(unsigned char c)
-{
+{//字符装换为数字
     if((c >= '0')
             && (c <= '9'))
         return c - '0';
@@ -130,7 +130,7 @@ unsigned int c2h(unsigned char c)
 
 /*Change one string to int*/
 unsigned int do_int(char *fp,int length)
-{
+{ //字符串转换为16进制数
     int i,j = 0,sum = 0;//,temp_length = 0;
     for(i = 0; i < length; i++)
     {
@@ -148,7 +148,7 @@ unsigned int do_int(char *fp,int length)
 }
 
 void different_wordline(struct dirent * fileinfo)
-{
+{// 拿出目录中的rdber文件信息流
     FILE *fp = NULL;
     int file_length = 0;
     short first_value = 0,second_value = 0;
@@ -163,27 +163,28 @@ void different_wordline(struct dirent * fileinfo)
         return;
     }
 
-    fseek(fp,0,SEEK_END);
-    file_length = ftell(fp);
-    fseek(fp,0,SEEK_SET);
+    fseek(fp,0,SEEK_END);//fp指向文件流末尾
+    file_length = ftell(fp);// 从文件开头到fp指向的位置文件字节数
+    fseek(fp,0,SEEK_SET);//fp再次指向文件开头
 
     while(file_length > 0)
     {
-        fread(&first_value,2,1,fp);
+        fread(&first_value,2,1,fp);//读取一个单元，每个单元为两个字节
         fread(&second_value,2,1,fp);
 
-        GetWordLineNumber(page, &word_line_number, &page_type);
-        DistributionRowColumn(word_line_number, page_type, &row, &column);
-        Select_Data(row, column , (first_value + second_value));
+        GetWordLineNumber(page, &word_line_number, &page_type);//获取wordline号以及page类型
+        DistributionRowColumn(word_line_number, page_type, &row, &column);//得到所属的行号列号
+        Select_Data(row, column , (first_value + second_value)); //存储相应数组元素信息
+
 
         codeword ++;
         if(codeword >= 4)
-        {
+        {// 决定页号的下移
             page += 1;
             codeword = 0;
         }
 
-        file_length = file_length - 4;
+        file_length = file_length - 4; // 决定何时读完跳出文件
     }
     fclose(fp);
 }
@@ -241,14 +242,14 @@ void write_into_file(char* dir_path,int endurance_number,char *dest_dir_name,cha
 }
 
 void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
-{
+{//1.rdber文件所在的目录 ，如：\fifth_test\normal_tempurature_7\2_pattern\5055_4_0_0_0\all_nand
     DIR *dir = NULL;
     struct dirent * file_info = NULL;
     int count_number = 0;
     int endurance_number = 0;
-    while(endurance_number <= 4)
+    while(endurance_number <= 4)// 根据Endurance先将block分类，然后
     {
-        if((dir = opendir(path)) == NULL)
+        if((dir = opendir(path)) == NULL)// 打开目录得到一个目录流
         {
             perror("fail to opendir");
             return -1;
@@ -256,7 +257,7 @@ void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
         do_init();
         count_number = 0;
         chdir(path);
-        while((file_info = readdir(dir)) != NULL)
+        while((file_info = readdir(dir)) != NULL)// 读取目录流，得到文件的信息，然后下移
         {
             if(file_info->d_name[0] == '.')
                 continue;
@@ -269,16 +270,17 @@ void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
 
             Endurance = do_int(file_info->d_name + 20,4);
             if(Endurance != endurance_number)
-                continue;
+                continue;//根据Endurance的次序处理block
 
             different_wordline(file_info);
             count_number ++;
         }
         printf("count_number:%d\n",count_number);
         write_into_file(path,endurance_number,dest_dir_name,big_dir);
+        // 将Endurance相同的block，分析得到数据存储在同一个文件里
         printf("%d finished!\n",endurance_number);
-        endurance_number ++;
-        closedir(dir);
+        endurance_number ++;// 分析另外的Endurance下的block
+        closedir(dir);  // 关闭目录流
     }
 }
 #if 0

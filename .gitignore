@@ -1,0 +1,4 @@
+bin/Debug/test_different_word_line.exe
+obj/Debug/main.o
+obj/Release/main.o
+bin/Release/test_different_word_line.exe

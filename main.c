@@ -1,4 +1,4 @@
-
+ï»¿
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -27,7 +27,7 @@ typedef struct
     int count;
 }STATISTICS_NODE;
 
-STATISTICS_NODE Word_Line_Node[2][34] = {0};// ´æ·ÅÃ¿¸öÔÚwordline£¬É¸Ñ¡³öµÄ²»Í¬ÀàĞÍËùÓĞpageµÄĞÅÏ¢¡£
+STATISTICS_NODE Word_Line_Node[2][34] = {0};// å­˜æ”¾æ¯ä¸ªåœ¨wordlineï¼Œç­›é€‰å‡ºçš„ä¸åŒç±»å‹æ‰€æœ‰pageçš„ä¿¡æ¯ã€‚
 
 unsigned short Page_max_value[PAGE_COUNT] = {0};
 unsigned int Page_sum_value[PAGE_COUNT] = {0};
@@ -35,7 +35,7 @@ float Page_average_value[PAGE_COUNT] = {0};
 
 unsigned int UniqueId = 0,BlockNum = 0,Endurance = 0;
 
-void do_init()// ³õÊ¼»¯ ½ÚµãÀïµÄĞÅÏ¢
+void do_init()// åˆå§‹åŒ– èŠ‚ç‚¹é‡Œçš„ä¿¡æ¯
 {
     int i = 0,j = 0;
     for(i = 0; i < 2; i++)
@@ -62,8 +62,13 @@ void do_init()// ³õÊ¼»¯ ½ÚµãÀïµÄĞÅÏ¢
     }
 }
 
+<<<<<<< HEAD
 unsigned int GetPageType(unsigned int p) //»ñÈ¡pageµÄÀàĞÍ
 {
+=======
+unsigned int GetPageType(unsigned int p)
+{//è·å–pageçš„ç±»å‹
+>>>>>>> parent of bca47d5... å®éªŒ
     if(GET_PAGE_TYPE(p) == UPPER_PAGE)
         return UPPER_PAGE;
     if(GET_UPPER_PAGE(p) == NO_UPPER_PAGE)
@@ -72,8 +77,13 @@ unsigned int GetPageType(unsigned int p) //»ñÈ¡pageµÄÀàĞÍ
         return LOWER_PAGE;
 }
 
+<<<<<<< HEAD
 void GetWordLineNumber(unsigned int p,unsigned int *number,unsigned int *type) //¸ù¾İpage£¬»ñÈ¡pageËùÊôµÄwordline£¬ÒÔ¼°pageµÄÀàĞÍ£¬²¢´æ´¢¡£
 {
+=======
+void GetWordLineNumber(unsigned int p,unsigned int *number,unsigned int *type)
+{//æ ¹æ®pageï¼Œè·å–pageæ‰€å±çš„wordlineï¼Œä»¥åŠpageçš„ç±»å‹ï¼Œå¹¶å­˜å‚¨ã€‚
+>>>>>>> parent of bca47d5... å®éªŒ
     *type = GetPageType(p);
     if(*type == UPPER_PAGE)
         p = GET_LOWER_PAGE(p);
@@ -86,8 +96,13 @@ void GetWordLineNumber(unsigned int p,unsigned int *number,unsigned int *type) /
         *number = (p - 960) / 32 + 32;
 }
 
+<<<<<<< HEAD
 void DistributionRowColumn(unsigned int number,unsigned int type,unsigned int *row ,unsigned int *column) //// ¶ÔÓ¦µ½ÏàÓ¦µÄ¶şÎ¬Êı×éÉÏ£¬¼´Êı¾İµÄÒ»¸öÔªËØ´ú±íÒ»¸öwordlineÀï£¬Ä³ÖÖÀàĞÍµÄËùÓĞpageµÄ×ÜµÄĞÅÏ¢£¬Èç£ºsum£¬max£¬count¡£
 {
+=======
+void DistributionRowColumn(unsigned int number,unsigned int type,unsigned int *row,unsigned int *column)
+{// å¯¹åº”åˆ°ç›¸åº”çš„äºŒç»´æ•°ç»„ä¸Šï¼Œå³æ•°æ®çš„ä¸€ä¸ªå…ƒç´ ä»£è¡¨ä¸€ä¸ªwordlineé‡Œï¼ŒæŸç§ç±»å‹çš„æ‰€æœ‰pageçš„æ€»çš„ä¿¡æ¯ï¼Œå¦‚ï¼šsumï¼Œmaxï¼Œcountã€‚
+>>>>>>> parent of bca47d5... å®éªŒ
     if(type == UPPER_PAGE)
     {
         *row = 1;
@@ -105,16 +120,26 @@ void DistributionRowColumn(unsigned int number,unsigned int type,unsigned int *r
     }
 }
 
+<<<<<<< HEAD
 void Select_Data(unsigned int row,unsigned int column,short value)      // »ñÈ¡Ã¿¸ö½ÚµãÄÚ²¿µÄĞÅÏ¢
 {
+=======
+void Select_Data(unsigned int row,unsigned int column,short value)
+{// è·å–æ¯ä¸ªèŠ‚ç‚¹å†…éƒ¨çš„ä¿¡æ¯
+>>>>>>> parent of bca47d5... å®éªŒ
     Word_Line_Node[row][column].count ++;
     Word_Line_Node[row][column].sum += value;
     if(Word_Line_Node[row][column].max < value)
         Word_Line_Node[row][column].max = value;
 }
 
+<<<<<<< HEAD
 unsigned int c2h(unsigned char c)                                           //×Ö·û×°»»ÎªÊı×Ö
 {
+=======
+unsigned int c2h(unsigned char c)
+{//å­—ç¬¦è£…æ¢ä¸ºæ•°å­—
+>>>>>>> parent of bca47d5... å®éªŒ
     if((c >= '0')
             && (c <= '9'))
         return c - '0';
@@ -129,8 +154,13 @@ unsigned int c2h(unsigned char c)                                           //×Ö
 }
 
 /*Change one string to int*/
+<<<<<<< HEAD
 unsigned int do_int(char *fp,int length)    //×Ö·û´®×ª»»Îª16½øÖÆÊı
 {
+=======
+unsigned int do_int(char *fp,int length)
+{ //å­—ç¬¦ä¸²è½¬æ¢ä¸º16è¿›åˆ¶æ•°
+>>>>>>> parent of bca47d5... å®éªŒ
     int i,j = 0,sum = 0;//,temp_length = 0;
     for(i = 0; i < length; i++)
     {
@@ -147,8 +177,13 @@ unsigned int do_int(char *fp,int length)    //×Ö·û´®×ª»»Îª16½øÖÆÊı
     return sum;
 }
 
+<<<<<<< HEAD
 void different_wordline(struct dirent * fileinfo)  // ÄÃ³öÄ¿Â¼ÖĞµÄrdberÎÄ¼şĞÅÏ¢Á÷
 {
+=======
+void different_wordline(struct dirent * fileinfo)
+{// æ‹¿å‡ºç›®å½•ä¸­çš„rdberæ–‡ä»¶ä¿¡æ¯æµ
+>>>>>>> parent of bca47d5... å®éªŒ
     FILE *fp = NULL;
     int file_length = 0;
     short first_value = 0,second_value = 0;
@@ -163,6 +198,7 @@ void different_wordline(struct dirent * fileinfo)  // ÄÃ³öÄ¿Â¼ÖĞµÄrdberÎÄ¼şĞÅÏ¢Á
         return;
     }
 
+<<<<<<< HEAD
     fseek(fp,0,SEEK_END);                     //fpÖ¸ÏòÎÄ¼şÁ÷Ä©Î²
     file_length = ftell(fp);                 // ´ÓÎÄ¼ş¿ªÍ·µ½fpÖ¸ÏòµÄÎ»ÖÃÎÄ¼ş×Ö½ÚÊı
     fseek(fp,0,SEEK_SET);                    //fpÔÙ´ÎÖ¸ÏòÎÄ¼ş¿ªÍ·
@@ -175,16 +211,38 @@ void different_wordline(struct dirent * fileinfo)  // ÄÃ³öÄ¿Â¼ÖĞµÄrdberÎÄ¼şĞÅÏ¢Á
         GetWordLineNumber(page, &word_line_number, &page_type);      //»ñÈ¡wordlineºÅÒÔ¼°pageÀàĞÍ
         DistributionRowColumn(word_line_number, page_type, &row, &column);       //µÃµ½ËùÊôµÄĞĞºÅÁĞºÅ
         Select_Data(row, column , (first_value + second_value));           //  ´æ´¢Êı×éÔªËØĞÅÏ¢
+=======
+    fseek(fp,0,SEEK_END);//fpæŒ‡å‘æ–‡ä»¶æµæœ«å°¾
+    file_length = ftell(fp);// ä»æ–‡ä»¶å¼€å¤´åˆ°fpæŒ‡å‘çš„ä½ç½®æ–‡ä»¶å­—èŠ‚æ•°
+    fseek(fp,0,SEEK_SET);//fpå†æ¬¡æŒ‡å‘æ–‡ä»¶å¼€å¤´
+
+    while(file_length > 0)
+    {
+        fread(&first_value,2,1,fp);//è¯»å–ä¸€ä¸ªå•å…ƒï¼Œæ¯ä¸ªå•å…ƒä¸ºä¸¤ä¸ªå­—èŠ‚
+        fread(&second_value,2,1,fp);
+
+        GetWordLineNumber(page, &word_line_number, &page_type);//è·å–wordlineå·ä»¥åŠpageç±»å‹
+        DistributionRowColumn(word_line_number, page_type, &row, &column);//å¾—åˆ°æ‰€å±çš„è¡Œå·åˆ—å·
+        Select_Data(row, column , (first_value + second_value)); //å­˜å‚¨ç›¸åº”æ•°ç»„å…ƒç´ ä¿¡æ¯
+>>>>>>> parent of bca47d5... å®éªŒ
 
 
         codeword ++;
         if(codeword >= 4)
+<<<<<<< HEAD
         {                                                     // ¾ö¶¨Ò³ºÅµÄÏÂÒÆ
+=======
+        {// å†³å®šé¡µå·çš„ä¸‹ç§»
+>>>>>>> parent of bca47d5... å®éªŒ
             page += 1;
             codeword = 0;
         }
 
+<<<<<<< HEAD
         file_length = file_length - 4;                           // ¾ö¶¨ºÎÊ±¶ÁÍêÌø³öÎÄ¼ş
+=======
+        file_length = file_length - 4; // å†³å®šä½•æ—¶è¯»å®Œè·³å‡ºæ–‡ä»¶
+>>>>>>> parent of bca47d5... å®éªŒ
     }
     fclose(fp);
 }
@@ -239,15 +297,25 @@ void write_into_file(char* dir_path,int endurance_number,char *dest_dir_name,cha
 }
 
 void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
+<<<<<<< HEAD
 {                                                                               //1.rdberÎÄ¼şËùÔÚµÄÄ¿Â¼ £¬Èç£º\fifth_test\normal_tempurature_7\2_pattern\5055_4_0_0_0\all_nand
+=======
+{//1.rdberæ–‡ä»¶æ‰€åœ¨çš„ç›®å½• ï¼Œå¦‚ï¼š\fifth_test\normal_tempurature_7\2_pattern\5055_4_0_0_0\all_nand
+>>>>>>> parent of bca47d5... å®éªŒ
     DIR *dir = NULL;
     struct dirent * file_info = NULL;
     int count_number = 0;
     int endurance_number = 0;
+<<<<<<< HEAD
 
     while(endurance_number <= 4)                                                    // ¸ù¾İEnduranceÏÈ½«block·ÖÀà£¬È»ºó
     {
         if((dir = opendir(path)) == NULL)                                       // ´ò¿ªÄ¿Â¼µÃµ½Ò»¸öÄ¿Â¼Á÷
+=======
+    while(endurance_number <= 4)// æ ¹æ®Enduranceå…ˆå°†blockåˆ†ç±»ï¼Œç„¶å
+    {
+        if((dir = opendir(path)) == NULL)// æ‰“å¼€ç›®å½•å¾—åˆ°ä¸€ä¸ªç›®å½•æµ
+>>>>>>> parent of bca47d5... å®éªŒ
         {
             perror("fail to opendir");
             return -1;
@@ -256,9 +324,13 @@ void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
 
         count_number = 0;
         chdir(path);
+<<<<<<< HEAD
 
 
         while((file_info = readdir(dir)) != NULL)                         // ¶ÁÈ¡Ä¿Â¼Á÷£¬µÃµ½ÎÄ¼şµÄĞÅÏ¢£¬È»ºóÏÂÒÆ
+=======
+        while((file_info = readdir(dir)) != NULL)// è¯»å–ç›®å½•æµï¼Œå¾—åˆ°æ–‡ä»¶çš„ä¿¡æ¯ï¼Œç„¶åä¸‹ç§»
+>>>>>>> parent of bca47d5... å®éªŒ
         {
             if(file_info->d_name[0] == '.')
                 continue;
@@ -272,11 +344,16 @@ void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
             Endurance = do_int(file_info->d_name + 20,4);
 
             if(Endurance != endurance_number)
+<<<<<<< HEAD
                 continue;                                                 //¸ù¾İEnduranceµÄ´ÎĞò´¦Àíblock
+=======
+                continue;//æ ¹æ®Enduranceçš„æ¬¡åºå¤„ç†block
+>>>>>>> parent of bca47d5... å®éªŒ
 
             different_wordline(file_info);
             count_number ++;
         }
+<<<<<<< HEAD
        // printf("count_number:%d\n",count_number);
         printf("\n666666666%s",dest_dir_name);
 
@@ -285,6 +362,14 @@ void statistics_a_directory(char *path,char *dest_dir_name,char*big_dir)
         printf("%d finished!\n",endurance_number);
         endurance_number ++;                                    // ·ÖÎöÁíÍâµÄEnduranceÏÂµÄblock
         closedir(dir);                                                               // ¹Ø±ÕÄ¿Â¼Á÷
+=======
+        printf("count_number:%d\n",count_number);
+        write_into_file(path,endurance_number,dest_dir_name,big_dir);
+        // å°†Enduranceç›¸åŒçš„blockï¼Œåˆ†æå¾—åˆ°æ•°æ®å­˜å‚¨åœ¨åŒä¸€ä¸ªæ–‡ä»¶é‡Œ
+        printf("%d finished!\n",endurance_number);
+        endurance_number ++;// åˆ†æå¦å¤–çš„Enduranceä¸‹çš„block
+        closedir(dir);  // å…³é—­ç›®å½•æµ
+>>>>>>> parent of bca47d5... å®éªŒ
     }
 }
 #if 0

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1480321467 source:e:\xiaofei\test\t1\test_different_word_line\main.c
+1486467100 source:c:\users\yanhang\desktop\program\test_different_word_line\main.c
 	<stdio.h>
 	<errno.h>
 	<stdlib.h>

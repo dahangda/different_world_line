@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <strings.h>
-
+//shuoyixia zhege
 #define LOWER_PAGE 				1
 #define SLC_PAGE                0
 #define UPPER_PAGE 				3
